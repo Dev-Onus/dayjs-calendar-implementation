@@ -3,8 +3,8 @@ import Calendar from "../DayjsCalendar/index.jsx";
 // import dayjs from "dayjs";
 
 export default {
-  title: "Calendar",
+  title: "DayjsCalendar",
   component: Calendar
 };
 
-export const Simple = () => <Calendar />;
+export const Simple = () => <Calendar displayLocale="es" />;
