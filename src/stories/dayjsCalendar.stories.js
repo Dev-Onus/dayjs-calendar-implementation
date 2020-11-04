@@ -7,4 +7,22 @@ export default {
   component: Calendar
 };
 
-export const Simple = () => <Calendar displayLocale="es" />;
+export const Year = () => <Calendar displayLocale="en" calendarRange="year" />;
+export const CalendarYear = () => (
+  <Calendar displayLocale="en" calendarRange="calendarYear" />
+);
+export const FullYear = () => (
+  <Calendar displayLocale="en" calendarRange="full" />
+);
+export const All = () => (
+  <>
+    <Year />
+    <br />
+    <hr />
+    <CalendarYear />
+    <br />
+    <hr />
+    <FullYear />
+    <br />
+  </>
+);
