@@ -24,8 +24,10 @@ export const Year = () => {
   }, []);
 
   useEffect(() => {
-    const railElm = calendarRef?.current?.querySelector(".layout-rail");
-    railElm.scrollTo(0, scrollTop);
+    const layoutElm = calendarRef?.current?.querySelector(".layout");
+    // layoutElm.scrollTo(0, scrollTop);
+    console.log("Inn scrolTop####");
+    layoutElm.style.transform = "translate(0%, -" + scrollTop + "px)";
   }, [scrollTop]);
 
   const handleToggle = () => {
@@ -35,7 +37,8 @@ export const Year = () => {
   const handleScrollUp = () => {
     const railElm = calendarRef?.current?.querySelector(".layout-rail");
     let monthHeight = (!enableWeekdays ? 0.86 : 1.2) * layoutWidth;
-    setScrollTop(scrollTop + monthHeight + 200);
+    setScrollTop(scrollTop + monthHeight + 0);
+    // setScrollTop(scrollTop + 8.3);
     // debugger;
     // console.log(monthHeight, "monthHeight");
   };
@@ -43,7 +46,8 @@ export const Year = () => {
   const handleScrollDown = () => {
     const railElm = calendarRef?.current?.querySelector(".layout-rail");
     let monthHeight = (!enableWeekdays ? 0.86 : 1.2) * layoutWidth;
-    setScrollTop(scrollTop - monthHeight + 200);
+    setScrollTop(scrollTop - monthHeight + 0);
+    // setScrollTop(scrollTop - 8.3);
     // debugger;
   };
 

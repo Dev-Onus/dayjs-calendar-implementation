@@ -24,6 +24,10 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.layout {
+  transition: transform 3s;
+}
+
 .month {
   display: grid;
   scroll-snap-align: start end;
