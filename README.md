@@ -4,10 +4,7 @@ Companion demo to my talk, [Using Storybook to Build a Better... Game Engine?](h
 
 Showcases using Storybook as the basis for unit and functional tests aka "Storyflow" workflow. Uses Storybook, Jest, and Cypress.
 
-
-checking for commit changes 12
----
-
+## checking for commit changes 12
 
 ## Getting Started
 
@@ -16,7 +13,7 @@ checking for commit changes 12
 - [Yarn](https://yarnpkg.com) 1.x (or replace `yarn` with `npm`)
 - [Node](https://nodejs.org) 12.x
 
-**Follow the steps here**
+**Follow the steps here123**
 
 ```sh
 # Install dependencies
