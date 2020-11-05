@@ -104,7 +104,8 @@ const getScreenWidth = (ref, className) =>
 const Calendar = ({
   calendarView = "normal", // normal or weekdays
   calendarRange = "calendarYear", // year, calendarYear, full, custom
-  displayLocale = "en" // en or es
+  displayLocale = "en", // en or es
+  forwardedRef = null
 }) => {
   const uniq = Math.floor(Math.random() * 1000);
   const [monthLocale, setMonthLocale] = useState(null);
@@ -114,33 +115,44 @@ const Calendar = ({
     calendarView === "normal" ? 7 : 5
   );
   const [calenderLayout, setCalenderLayout] = useState([]);
-  const [layoutClassNames, setLayoutClassNames] = useState("layout-normal");
+  const [monthClassNames, setMonthClassNames] = useState("month-normal");
+  const [containerClassNames, setContainerClassNames] = useState(
+    "container-normal"
+  );
   const [isResized, setResized] = useState(false);
   const [maxHeight, setMaxHeight] = useState(null);
-  const containerRef = useRef();
+
   const cellsRef = useRef();
 
   useEffect(() => {
     let days = 7;
-    let layoutClassName = "layout-normal";
+    let monthClassName = "month-normal";
+    let containerClassName = "container-normal";
     switch (calendarView) {
       case "weekdays":
         days = 5;
-        layoutClassName = "layout-weekdays";
+        monthClassName = "month-weekdays";
+        containerClassName = "container-weekdays";
         break;
       case "normal":
       default:
         days = 7;
-        layoutClassName = "layout-normal";
+        monthClassName = "month-normal";
+        containerClassName = "container-normal";
         break;
     }
     setDaysInView(days);
-    setLayoutClassNames(layoutClassName);
+    setMonthClassNames(monthClassName);
+    setContainerClassNames(containerClassName);
   }, [calendarView]);
 
   // construct the array based on the days & weeks count.
   useEffect(() => {
-    setCalenderLayout(new Array(daysInView * totalNoOfWeeks).fill(" "));
+    setCalenderLayout(
+      new Array(12)
+        .fill(" ")
+        .map((_, idx) => new Array(daysInView * 6).fill(" "))
+    );
   }, [daysInView]);
 
   //do something on mount
@@ -186,31 +198,44 @@ const Calendar = ({
     setResized(!isResized);
   };
 
+  console.log(calenderLayout, "calenderLayout");
+
   return (
-    <div ref={containerRef}>
+    <div>
       Hello, {calendarRange} - {displayLocale}
       <br />
       {JSON.stringify(monthLocale, null, 4)}
       {JSON.stringify(weekLocale, null, 4)}
       {/* {JSON.stringify(weekLocale, null, 4)} */}
       {JSON.stringify(calendar, null, 4)}
-      <div className={`layout ${layoutClassNames}`} onResize={handleResize}>
-        {calenderLayout.map((value, index) => {
-          return (
+      <div style={{ width: "600px" }}>
+        <div className={`container ${containerClassNames}`} ref={forwardedRef}>
+          <div className="layout-rail">
             <div
-              className="cell"
-              key={`${uniq}-cell-${index}`}
-              data-place-id={index}
-              ref={cellsRef}
-              style={{ maxHeight: maxHeight }}
+              className={`layout `}
+              // onResize={handleResize}
             >
-              <div className="aspect-ratio"></div>
-              <div className="content-area">
-                <div className="center-content">{index}</div>
-              </div>
+              {calenderLayout.map((monthLayout, index) => {
+                return (
+                  <div className={`month ${monthClassNames}`}>
+                    {monthLayout.map((value, index) => {
+                      return (
+                        <>
+                          <div className="cell" data-place-id={index}>
+                            <div className="aspect-ratio"></div>
+                            <div className="content-area">
+                              <div className="center-content">{index}</div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+        </div>
       </div>
     </div>
   );
