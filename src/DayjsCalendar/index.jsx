@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import * as ObjectSupport from "dayjs/plugin/objectSupport";
@@ -18,6 +18,7 @@ window.d1 = dayjs();
 window.dc = dayjs;
 
 const totalNoOfWeeks = 52;
+const maxNoOfWeeksInCalendar = 72;
 
 const getCalendarLocale = (displayLocale = "en") => {
   dayjs.locale(displayLocale);
@@ -27,6 +28,7 @@ const getCalendarLocale = (displayLocale = "en") => {
 const getFormattedDateString = (date) => {
   return date.format("DD dd MM MMMM YYYY");
 };
+
 const fs = getFormattedDateString;
 
 const getDaysInMonths = (calendarRange, selectedMonth, selectedYear) => {
@@ -96,6 +98,9 @@ const getCalendarList = (
   ];
 };
 
+const getScreenWidth = (ref, className) =>
+  ref.current.querySelector(`.${className}`).offsetWidth;
+
 const Calendar = ({
   calendarView = "normal", // normal or weekdays
   calendarRange = "calendarYear", // year, calendarYear, full, custom
@@ -109,17 +114,28 @@ const Calendar = ({
     calendarView === "normal" ? 7 : 5
   );
   const [calenderLayout, setCalenderLayout] = useState([]);
+  const [layoutClassNames, setLayoutClassNames] = useState("layout-normal");
+  const [isResized, setResized] = useState(false);
+  const [maxHeight, setMaxHeight] = useState(null);
+  const containerRef = useRef();
+  const cellsRef = useRef();
 
   useEffect(() => {
+    let days = 7;
+    let layoutClassName = "layout-normal";
     switch (calendarView) {
       case "weekdays":
-        setDaysInView(5);
+        days = 5;
+        layoutClassName = "layout-weekdays";
         break;
       case "normal":
       default:
-        setDaysInView(7);
+        days = 7;
+        layoutClassName = "layout-normal";
         break;
     }
+    setDaysInView(days);
+    setLayoutClassNames(layoutClassName);
   }, [calendarView]);
 
   // construct the array based on the days & weeks count.
@@ -139,21 +155,54 @@ const Calendar = ({
     setCalendar(getCalendarList(calendarRange));
   }, [calendarRange, monthLocale, weekLocale]);
 
+  useEffect(() => {
+    // console.log(
+    //   containerRef.current,
+    //   containerRef.current.querySelector(".layout"),
+    //   cellsRef,
+    //   "cell conatinerRef"
+    // );
+    // const exactContainer = containerRef.current.querySelector(".layout");
+    // console.log(
+    //   exactContainer.querySelector("div.cell"),
+    //   containerRef.current.querySelector("div.cell"),
+    //   "cell"
+    // );
+    // console.log(
+    //   cellsRef.current,
+    //   cellsRef?.current?.clientWidth,
+    //   "overall width"
+    // );
+    // con
+    if (calenderLayout.length > 0 && isResized) {
+      setMaxHeight(
+        getScreenWidth(containerRef.current.querySelector(".cells")) *
+          daysInView
+      );
+    }
+  }, [isResized, calenderLayout]);
+
+  const handleResize = () => {
+    setResized(!isResized);
+  };
+
   return (
-    <div>
+    <div ref={containerRef}>
       Hello, {calendarRange} - {displayLocale}
       <br />
       {JSON.stringify(monthLocale, null, 4)}
       {JSON.stringify(weekLocale, null, 4)}
       {/* {JSON.stringify(weekLocale, null, 4)} */}
       {JSON.stringify(calendar, null, 4)}
-      <div className="layout">
+      <div className={`layout ${layoutClassNames}`} onResize={handleResize}>
         {calenderLayout.map((value, index) => {
           return (
             <div
               className="cell"
               key={`${uniq}-cell-${index}`}
               data-place-id={index}
+              ref={cellsRef}
+              style={{ maxHeight: maxHeight }}
             >
               <div className="aspect-ratio"></div>
               <div className="content-area">
