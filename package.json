@@ -4,6 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "test:generate-output": "jest --json --outputFile=test-results.json",
+    "prestart": "yarn test:generate-output",
     "start": "start-storybook -p 6006",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -22,6 +24,8 @@
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-docs": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
+    "storybook/addon-jest": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/react": "^5.3.18",
     "@testing-library/cypress": "^6.0.0",
@@ -34,7 +38,8 @@
     "nodemon": "1.18.4",
     "react-test-renderer": "^16.13.1",
     "regenerator-runtime": "^0.13.5",
-    "@storybook/addon-jest": "6.0.28"
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.5"
   },
   "keywords": [],
   "jest": {
