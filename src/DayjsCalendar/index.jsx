@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import CalendarHeader from "./header";
+import CalendarView from "./view";
 import { getMonth, getYear } from "./utils";
 import dayjs from "dayjs";
 
@@ -71,7 +72,7 @@ const Calendar = ({
           year: getYear(dayjs())
         }}
       />
-      <Calendar
+      <CalendarView
         forwardedRef={calendarRef}
         displayLocale="en"
         calendarRange="year"
