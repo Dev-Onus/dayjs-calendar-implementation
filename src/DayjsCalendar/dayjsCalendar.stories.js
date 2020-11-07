@@ -3,13 +3,13 @@ import Calendar from "../DayjsCalendar/index.jsx";
 import CalendarHeader from "../DayjsCalendar/header.jsx";
 // import dayjs from "dayjs";
 import { getFirstDayOffsetInMonths } from "../DayjsCalendar/utils";
-import results from "../../test-results.json";
-import { withTests } from "@storybook/addon-jest";
+// import results from "../../test-results.json";
+// import { withTests } from "@storybook/addon-jest";
 
 export default {
   title: "DayjsCalendar",
-  component: Calendar,
-  decorators: [withTests({ results })]
+  component: Calendar
+  // decorators: [withTests({ results })]
 };
 
 console.log(getFirstDayOffsetInMonths("", 10, 2020), "monthOffsets");
