@@ -1,10 +1,10 @@
 {
-  "name": "dc",
+  "name": "dc1",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test:generate-output": "jest --json --outputFile=test-results.json",
+    "test:generate-output": "jest --json --outputFile=test-results.json || true",
     "start": "start-storybook -p 6006",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -22,7 +22,7 @@
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-docs": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
-    "storybook/addon-jest": "^5.3.18",
+    "@storybook/addon-jest": "^5.3.18",
     "@storybook/addon-knobs": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/react": "^5.3.18",
@@ -42,9 +42,7 @@
   "keywords": [],
   "jest": {
     "rootDir": "src",
-    "setupFilesAfterEnv": [
-      "../setupTests.js"
-    ],
+    "setupFilesAfterEnv": ["../setupTests.js"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       ".+\\.(css|styl|less|sass|scss)$": "jest-transform-css"
