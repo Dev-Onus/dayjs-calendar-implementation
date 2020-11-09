@@ -1,10 +1,11 @@
-import React from "react";
-import { shallow } from "enzyme";
-import Calendar from "../DayjsCalendar";
+import { getMonth, getYear } from "../DayjsCalendar/utils";
+import dayjs from "dayjs";
 
-describe("Calendar", () => {
-  it('should render correctly in "debug" mode', () => {
-    const component = shallow(<Calendar />);
-    expect(component).toMatchSnapshot();
+describe("Calendar Utils", () => {
+  it("getMonth", () => {
+    expect(getMonth(dayjs())).toBeDefined();
+  });
+  it("getYear", () => {
+    expect(getYear(dayjs())).toBeDefined();
   });
 });
